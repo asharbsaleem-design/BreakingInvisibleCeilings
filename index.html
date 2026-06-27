@@ -868,7 +868,7 @@
     <div class="container">
       <div class="contact-grid fade-in">
         <div>
-          <form id="contact-form" action="https://formspree.io/f/xjgzloll" method="POST">
+          <form id="contact-form">
             <div class="form-group">
               <label class="form-label">Full Name *</label>
               <input class="form-input" type="text" name="name" required placeholder="Your full name">
@@ -897,7 +897,7 @@
               <label class="form-label">Tell me about your event, team, or what you're working through *</label>
               <textarea class="form-textarea" name="message" required placeholder="The more detail you share, the better Ashar can respond…"></textarea>
             </div>
-            <button type="submit" class="btn-submit">Send Message</button>
+            <button type="button" onclick="submitToBrevo()" class="btn-submit">Send Message</button>
           </form>
         </div>
 
@@ -960,7 +960,25 @@
       activePage.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
     }
   }
-
+async function submitToBrevo() {
+  const name = document.querySelector('input[name="name"]').value;
+  const email = document.querySelector('input[name="email"]').value;
+  const org = document.querySelector('input[name="organization"]').value;
+  const type = document.querySelector('select[name="inquiry_type"]').value;
+  const message = document.querySelector('textarea[name="message"]').value;
+  if (!name || !email || !type || !message) { alert('Please fill in all required fields.'); return; }
+  try {
+    await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: { 'api-key': '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', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, attributes: { FIRSTNAME: name, COMPANY: org, SMS: type + ' | ' + message }, listIds: [2] })
+    });
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  } catch(e) {
+    alert('Something went wrong. Please try again.');
+  }
+}
   window.addEventListener('load', () => { setTimeout(initFades, 100); });
 </script>
 </body>
