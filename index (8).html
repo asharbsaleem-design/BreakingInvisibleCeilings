@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breaking Invisible Ceilings | Ashar Saleem</title>
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --navy:   #1A2E4A;
+    --gold:   #C9A84C;
+    --gold-l: #E8D5A0;
+    --cream:  #F7F3EC;
+    --white:  #FFFFFF;
+    --dark:   #1A1A1A;
+    --mid:    #555555;
+    --light:  #F0EDE7;
+    --serif:  Georgia, 'Times New Roman', serif;
+    --sans:   -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --max:    1100px;
+    --r:      3px;
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { font-family: var(--sans); color: var(--dark); background: var(--white); line-height: 1.7; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--white); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+  }
+  .nav-bar { width: 3px; height: 22px; background: var(--gold); border-radius: 2px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 0; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75); font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 0 14px; height: 60px; display: flex; align-items: center;
+    transition: color .2s; font-weight: 500;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--navy) !important; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; padding: 9px 18px; border-radius: var(--r);
+    transition: opacity .2s; margin-left: 8px; height: auto !important;
+  }
+  .nav-cta:hover { opacity: .85; color: var(--navy) !important; }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--white); margin: 4px 0; transition: .3s; }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; }
+  .page.active { display: block; }
+  body { padding-top: 60px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy); min-height: 88vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-bar {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 5px; background: var(--gold);
+  }
+  .hero-inner {
+    max-width: var(--max); margin: 0 auto; padding: 5rem 3rem;
+    display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: center;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.8rem);
+    color: var(--white); line-height: 1.15; margin-bottom: 1.5rem; font-weight: normal;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero-sub { color: rgba(255,255,255,0.78); font-size: 1.1rem; margin-bottom: 2.2rem; max-width: 520px; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-gold {
+    background: var(--gold); color: var(--navy); font-weight: 700;
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 14px 28px; border-radius: var(--r); transition: opacity .2s; display: inline-block;
+  }
+  .btn-gold:hover { opacity: .88; }
+  .btn-outline {
+    border: 1.5px solid rgba(255,255,255,0.4); color: var(--white);
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 13px 28px; border-radius: var(--r); transition: border-color .2s, color .2s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── HERO PHOTO — fixed alignment ── */
+  .hero-photo {
+    width: 340px;
+    height: 420px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1.5px solid rgba(201,168,76,0.3);
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* ── PROOF BAR ── */
+  .proof-bar {
+    background: var(--dark); padding: 1rem 2rem;
+    display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+  }
+  .proof-item {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.65); font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .proof-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTIONS ── */
+  .section { padding: 5rem 2rem; }
+  .section-cream { background: var(--cream); }
+  .section-navy { background: var(--navy); }
+  .section-light { background: var(--light); }
+  .container { max-width: var(--max); margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: .8rem;
+  }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--navy); margin-bottom: 1rem; font-weight: normal; line-height: 1.25;
+  }
+  .section-title-white { color: var(--white); }
+  .section-lead { font-size: 1.1rem; color: var(--mid); max-width: 640px; margin-bottom: 2.5rem; line-height: 1.75; }
+
+  /* ── GOLD BAR ACCENT ── */
+  .gold-bar-section { border-left: 4px solid var(--gold); padding-left: 1.5rem; }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .pull-quote {
+    font-family: var(--serif); font-size: clamp(1.5rem, 2.5vw, 2rem);
+    color: var(--navy); line-height: 1.4; font-style: italic;
+    border-left: 4px solid var(--gold); padding-left: 1.5rem;
+  }
+  .pull-quote cite { display: block; font-size: .85rem; font-style: normal; color: var(--gold); margin-top: .8rem; letter-spacing: 1px; }
+
+  /* ── ARISE ── */
+  .arise-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 2.5rem; }
+  .arise-card {
+    background: var(--white); border-radius: 4px; padding: 1.6rem 1.2rem;
+    border-top: 3px solid var(--gold); text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .arise-letter {
+    font-family: var(--serif); font-size: 2.4rem; font-weight: bold;
+    color: var(--gold); line-height: 1; margin-bottom: .4rem;
+  }
+  .arise-word { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--navy); font-weight: 600; margin-bottom: .8rem; }
+  .arise-desc { font-size: .85rem; color: var(--mid); line-height: 1.6; }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+  .card {
+    background: var(--white); border-radius: 4px; padding: 2rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07); border-bottom: 3px solid transparent;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-bottom-color: var(--gold); transform: translateY(-3px); }
+  .card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .card h3 { font-family: var(--serif); font-size: 1.3rem; color: var(--navy); margin-bottom: .6rem; font-weight: normal; }
+  .card p { font-size: .92rem; color: var(--mid); line-height: 1.7; margin-bottom: 1.2rem; }
+  .card-link { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .card-link:hover { text-decoration: underline; }
+  .card-featured { border: 2px solid var(--gold); position: relative; }
+  .card-badge {
+    position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 12px; border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── PRICE CARD ── */
+  .price { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: .4rem; }
+  .price-sub { font-size: .82rem; color: var(--mid); margin-bottom: 1.2rem; }
+
+  /* ── OFFERING ROW ── */
+  .offering {
+    background: var(--white); border-radius: 4px; padding: 2.2rem 2.5rem;
+    margin-bottom: 1.2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start;
+  }
+  .offering h3 { font-family: var(--serif); font-size: 1.3rem; color: var(--navy); margin-bottom: .5rem; font-weight: normal; }
+  .offering p { font-size: .92rem; color: var(--mid); line-height: 1.7; }
+  .offering-meta { text-align: right; min-width: 180px; }
+  .offering-price { font-size: 1.1rem; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .offering-detail { font-size: .8rem; color: var(--mid); margin-top: .3rem; }
+  .tag {
+    display: inline-block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: .6rem; font-weight: 600;
+  }
+  .tag-navy { background: var(--navy); color: var(--white); }
+  .tag-gold { background: var(--gold-l); color: var(--navy); }
+
+  /* ── NONPROFIT NOTE ── */
+  .nonprofit-note {
+    background: var(--cream); border-left: 4px solid var(--gold); padding: 1rem 1.5rem;
+    border-radius: 0 4px 4px 0; margin-top: 1.5rem; margin-bottom: 2rem;
+    font-size: .9rem; color: var(--mid); line-height: 1.7;
+  }
+  .nonprofit-note strong { color: var(--navy); }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 380px 1fr; gap: 4rem; align-items: start; }
+  .about-photo {
+    width: 100%; aspect-ratio: 3/4; border-radius: 4px;
+    background: var(--light); display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid var(--gold-l); font-size: 60px; color: var(--gold-l);
+    position: sticky; top: 80px; overflow: hidden;
+  }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .cred-item {
+    background: var(--cream); border-radius: 4px; padding: 1rem 1.2rem;
+    border-left: 3px solid var(--gold);
+  }
+  .cred-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: .3rem; }
+  .cred-value { font-size: .88rem; color: var(--dark); font-weight: 600; }
+
+  /* ── BOOK ── */
+  .book-grid { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; }
+  .book-cover {
+    aspect-ratio: 2/3; background: var(--navy); border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem; text-align: center; position: sticky; top: 80px;
+    box-shadow: 8px 8px 24px rgba(0,0,0,0.18);
+  }
+  .book-cover-title { font-family: var(--serif); font-size: 1.4rem; color: var(--white); margin-bottom: .5rem; line-height: 1.3; }
+  .book-cover-sub { font-size: .75rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .book-cover-author { font-size: .85rem; color: rgba(255,255,255,0.6); }
+  .book-cover-badge {
+    background: var(--gold); color: var(--navy); font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; margin-bottom: 1rem;
+  }
+  .inside-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .inside-item {
+    background: var(--cream); border-radius: 4px; padding: 1.2rem 1.4rem;
+    border-top: 2px solid var(--gold);
+  }
+  .inside-item h4 { font-size: .92rem; color: var(--navy); font-weight: 700; margin-bottom: .3rem; }
+  .inside-item p { font-size: .84rem; color: var(--mid); line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 420px; gap: 4rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-label { display: block; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; color: var(--navy); margin-bottom: .4rem; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid #ddd; border-radius: var(--r);
+    font-family: var(--sans); font-size: .95rem; color: var(--dark);
+    transition: border-color .2s; background: var(--white);
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: var(--gold);
+  }
+  .form-textarea { resize: vertical; min-height: 130px; }
+  .btn-submit {
+    background: var(--navy); color: var(--white); font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; padding: 14px 32px; border: none;
+    border-radius: var(--r); cursor: pointer; transition: background .2s; width: 100%;
+  }
+  .btn-submit:hover { background: var(--gold); color: var(--navy); }
+  .contact-info h3 { font-family: var(--serif); font-size: 1.4rem; color: var(--navy); margin-bottom: 1rem; font-weight: normal; }
+  .contact-info p { font-size: .95rem; color: var(--mid); line-height: 1.75; margin-bottom: 1.5rem; }
+  .social-links { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.5rem; }
+  .social-link {
+    display: flex; align-items: center; gap: .8rem;
+    font-size: .88rem; color: var(--mid); transition: color .2s;
+    cursor: pointer;
+  }
+  .social-link:hover { color: var(--gold); }
+  .social-icon { width: 32px; height: 32px; background: var(--cream); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9rem; flex-shrink: 0; }
+
+  /* ── CORPORATE ── */
+  .corp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .corp-card {
+    background: var(--white); border-radius: 4px; padding: 2rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07); border-top: 3px solid var(--gold);
+  }
+  .corp-card h3 { font-family: var(--serif); font-size: 1.2rem; color: var(--navy); margin-bottom: .6rem; font-weight: normal; }
+  .corp-card p { font-size: .9rem; color: var(--mid); line-height: 1.7; margin-bottom: 1rem; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+  .why-item { text-align: center; padding: 2rem 1.5rem; }
+  .why-num { font-family: var(--serif); font-size: 2.5rem; color: var(--gold); font-weight: bold; line-height: 1; margin-bottom: .5rem; }
+  .why-item h4 { font-size: .95rem; color: var(--navy); font-weight: 700; margin-bottom: .4rem; }
+  .why-item p { font-size: .88rem; color: var(--mid); line-height: 1.6; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: var(--navy); padding: 4rem 2rem; text-align: center;
+  }
+  .cta-banner h2 { font-family: var(--serif); font-size: 2rem; color: var(--white); margin-bottom: 1rem; font-weight: normal; }
+  .cta-banner p { color: rgba(255,255,255,0.75); max-width: 520px; margin: 0 auto 2rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); padding: 2rem; text-align: center;
+    border-top: 3px solid var(--gold);
+  }
+  .footer-brand { font-family: var(--serif); font-size: 1.1rem; color: var(--white); margin-bottom: .4rem; }
+  .footer-tagline { font-size: .8rem; color: var(--gold); font-style: italic; margin-bottom: .5rem; }
+  .footer-copy { font-size: .75rem; color: rgba(255,255,255,0.3); }
+
+  /* ── FADE IN ── */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-photo { display: none; }
+    #speaking-photo-wrap { display: none; }
+    .problem-grid, .about-grid, .book-grid, .contact-grid { grid-template-columns: 1fr; }
+    .arise-grid { grid-template-columns: repeat(3, 1fr); }
+    .cards { grid-template-columns: 1fr; }
+    .corp-grid { grid-template-columns: 1fr; }
+    .cred-grid, .inside-items, .why-grid { grid-template-columns: 1fr; }
+    .offering { grid-template-columns: 1fr; }
+    .offering-meta { text-align: left; }
+    .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; background: var(--navy); flex-direction: column; padding: 1rem 0; }
+    .nav-links.open { display: flex; }
+    .nav-links a { height: auto; padding: 12px 2rem; }
+    .nav-toggle { display: block; }
+    .nav-cta { display: none; }
+  }
+  @media (max-width: 600px) {
+    .arise-grid { grid-template-columns: 1fr 1fr; }
+    .hero-inner { padding: 3rem 1.5rem; }
+    .section { padding: 3.5rem 1.5rem; }
+    .proof-bar { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV — Coaching+Corporate merged into Programs; Contact+Get in Touch merged into one CTA -->
+<nav id="main-nav">
+  <div class="nav-logo">
+    <div class="nav-bar"></div>
+    Breaking Invisible Ceilings
+  </div>
+  <div class="nav-links" id="nav-links">
+    <a href="#" onclick="return showPage('home')" class="active" data-page="home">Home</a>
+    <a href="#" onclick="return showPage('about')" data-page="about">About</a>
+    <a href="#" onclick="return showPage('speaking')" data-page="speaking">Speaking</a>
+    <a href="#" onclick="return showPage('programs')" data-page="programs">Programs</a>
+    <a href="#" onclick="return showPage('book')" data-page="book">Book</a>
+    <a href="#" onclick="return showPage('contact')" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bar"></div>
+    <div class="hero-inner">
+      <div class="fade-in">
+        <div class="hero-eyebrow">Ashar Saleem · Author · Speaker · Coach</div>
+        <h1>You Were Built for More.<br><em>It's Time to Act Like It.</em></h1>
+        <p class="hero-sub">Ashar Saleem helps capable professionals, leaders, and teams break the invisible ceilings holding them back in their professional careers.</p>
+        <div class="hero-btns">
+          <a href="#" class="btn-gold" onclick="return showPage('contact')">Take the Free Ceiling Audit</a>
+          <a href="#" class="btn-outline" onclick="return showPage('speaking')">Book Ashar to Speak</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="speaking.jpg" alt="Ashar Saleem speaking"
+          onerror="this.onerror=null;this.src='event1.jpg';">
+      </div>
+    </div>
+  </section>
+
+  <div class="proof-bar">
+    <div class="proof-item"><div class="proof-dot"></div>#1 Amazon Canada</div>
+    <div class="proof-item"><div class="proof-dot"></div>Author · Invisible Ceilings</div>
+    <div class="proof-item"><div class="proof-dot"></div>Keynote Speaker</div>
+  </div>
+
+  <!-- Problem -->
+  <section class="section">
+    <div class="container">
+      <div class="problem-grid fade-in">
+        <div>
+          <blockquote class="pull-quote">
+            "An Invisible Ceiling is a self-imposed limitation that defines how far you believe you are allowed to go."
+            <cite>— Ashar Saleem</cite>
+          </blockquote>
+        </div>
+        <div>
+          <p class="section-eyebrow">The Real Problem</p>
+          <p style="font-size:1.05rem;line-height:1.8;color:var(--mid);margin-bottom:1rem;">Most high performers aren't held back by lack of talent, effort, or ambition. They're held back by invisible ceilings — the silent patterns, self-imposed limits, and beliefs that once made total sense and then quietly became permanent.</p>
+          <p style="font-size:1.05rem;line-height:1.8;color:var(--mid);margin-bottom:1rem;">You know that feeling and you have the experience. But somehow, still stuck at the same spot.</p>
+          <p style="font-size:1.05rem;line-height:1.8;color:var(--dark);font-weight:600;">That's not a motivation problem. It's an invisible ceiling problem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARISE -->
+  <section class="section section-cream">
+    <div class="container fade-in">
+      <p class="section-eyebrow">The Framework</p>
+      <h2 class="section-title">The ARISE Framework</h2>
+      <p class="section-lead">A structured path from awareness to elevation used in keynotes, coaching, and corporate programs across Canada.</p>
+      <div class="arise-grid">
+        <div class="arise-card"><div class="arise-letter">A</div><div class="arise-word">Acknowledge</div><p class="arise-desc">Name the ceiling. Most people live under it without ever calling it what it is.</p></div>
+        <div class="arise-card"><div class="arise-letter">R</div><div class="arise-word">Reflect</div><p class="arise-desc">Understand where the ceiling came from.</p></div>
+        <div class="arise-card"><div class="arise-letter">I</div><div class="arise-word">Identify</div><p class="arise-desc">Spot the patterns. The ceiling shows up in how you speak, what you avoid, who you defer to.</p></div>
+        <div class="arise-card"><div class="arise-letter">S</div><div class="arise-word">Shift</div><p class="arise-desc">Take the smallest possible action to break the pattern.</p></div>
+        <div class="arise-card"><div class="arise-letter">E</div><div class="arise-word">Elevate</div><p class="arise-desc">Build the life that makes the ceiling impossible to return to.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work together -->
+  <section class="section">
+    <div class="container fade-in">
+      <p class="section-eyebrow">How We Work Together</p>
+      <h2 class="section-title">Choose Your Path Forward</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🎤</div>
+          <h3>Speaking</h3>
+          <p>Keynotes and workshops that shift how your team thinks about performance, visibility, and leadership. For conferences, retreats, and corporate events.</p>
+          <a href="#" class="card-link" onclick="return showPage('speaking')">View Speaking Options →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Coaching</h3>
+          <p>One-on-one coaching built around the ARISE framework. For professionals who are ready to stop waiting and start leading at the next level.</p>
+          <a href="#" class="card-link" onclick="return showPage('programs')">Explore Coaching →</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏢</div>
+          <h3>Corporate Programs</h3>
+          <p>Multi-session workshop series and leadership development programs for teams, ERG groups, and L&amp;D initiatives that want real change.</p>
+          <a href="#" class="card-link" onclick="return showPage('programs')">View Corporate Programs →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Magnet CTA -->
+  <div class="cta-banner fade-in">
+    <div class="container">
+      <h2>Find Your Invisible Ceiling</h2>
+      <p>The free Invisible Ceiling Audit maps the five domains where your ceiling shows up — and points you toward your next shift. Takes 10 minutes. Most people find it uncomfortably accurate.</p>
+      <a href="#" class="btn-gold" onclick="return showPage('contact')">Download the Free Audit</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com · Ajax, Ontario</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section style="background:var(--navy);padding:5rem 2rem 3rem;">
+    <div class="container">
+      <p class="hero-eyebrow" style="color:var(--gold);">About Ashar Saleem</p>
+      <h1 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);color:var(--white);font-weight:normal;max-width:700px;line-height:1.2;">I know what it feels like to be capable — and still feel stuck.</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photo">
+          <img src="ashar.jpg" alt="Ashar Saleem"
+            onerror="this.onerror=null;this.src='event.jpg';">
+        </div>
+        <div>
+          <p class="section-eyebrow">The Story</p>
+          <h2 class="section-title">Why I Built This Framework</h2>
+          <div class="gold-bar-section" style="margin-bottom:2rem;">
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;margin-bottom:1rem;">I came to Canada with credentials, drive, and a clear plan. What I didn't expect was the invisible layer of friction that comes with being new — to a country, to a culture, to a professional environment that doesn't always signal where the real rules are.</p>
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;margin-bottom:1rem;">I worked harder. I delivered more. I waited for recognition that came slowly, inconsistently, and never quite matched what I was putting in.</p>
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;margin-bottom:1rem;">It took years for me to understand what was actually happening. I wasn't hitting a glass ceiling. I was hitting a ceiling I had helped build — through the stories I told myself, the way I stayed quiet when I should have spoken, the deference I showed when I should have led.</p>
+            <p style="font-size:1.05rem;color:var(--dark);font-weight:600;line-height:1.85;">That realization became the foundation for everything I do now.</p>
+          </div>
+          <p style="font-size:1rem;color:var(--mid);line-height:1.85;margin-bottom:2rem;">I wrote Invisible Ceilings because the framework that freed me needed to exist in a form that could reach others. Today I work with professionals, leaders, and organizations across Canada to help them see the ceiling, name the patterns, and build the habits that break through it — permanently.</p>
+
+          <p class="section-eyebrow">Credentials</p>
+          <div class="cred-grid">
+            <div class="cred-item"><div class="cred-label">Author</div><div class="cred-value">#1 Amazon Canada · Business Writing<br>Invisible Ceilings</div></div>
+            <div class="cred-item"><div class="cred-label">Certifications</div><div class="cred-value">PMP · CSM<br>Toastmasters Member</div></div>
+            <div class="cred-item"><div class="cred-label">Speaker</div><div class="cred-value">Keynote & Workshop<br>GTA & Nationwide</div></div>
+            <div class="cred-item"><div class="cred-label">Experience</div><div class="cred-value">15+ Years Enterprise<br>Project Leadership</div></div>
+          </div>
+
+          <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+            <a href="#" class="btn-gold" onclick="return showPage('speaking')">View Speaking</a>
+            <a href="#" style="border:1.5px solid var(--navy);color:var(--navy);padding:13px 28px;border-radius:var(--r);font-size:13px;letter-spacing:1px;text-transform:uppercase;display:inline-block;" onclick="return showPage('contact')">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: SPEAKING
+══════════════════════════════════════════════ -->
+<div class="page" id="page-speaking">
+  <section style="background:var(--navy);padding:5rem 2rem 3rem;">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 480px;gap:3rem;align-items:center;">
+        <div>
+          <p class="hero-eyebrow" style="color:var(--gold);">Speaking</p>
+          <h1 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);color:var(--white);font-weight:normal;max-width:700px;line-height:1.2;">A Room Leaves Differently After This Talk.</h1>
+          <p style="color:rgba(255,255,255,0.75);margin-top:1rem;max-width:580px;">Keynotes and workshops that don't just inspire — they shift how people see themselves and the ceiling they've been operating under. Based in the GTA. Available nationwide.</p>
+          <div style="margin-top:2rem;">
+            <a href="#" class="btn-gold" onclick="return showPage('contact')">Book Ashar to Speak</a>
+          </div>
+        </div>
+        <div id="speaking-photo-wrap" style="position:relative;">
+          <img id="speaking-photo-img" src="speaking.jpg" alt="Ashar Saleem on stage"
+            style="width:100%;height:360px;object-fit:cover;border-radius:4px;display:block;"
+            onerror="this.style.display='none';document.getElementById('speaking-photo-placeholder').style.display='flex';">
+          <div id="speaking-photo-placeholder"
+            style="display:none;width:100%;height:360px;background:rgba(255,255,255,0.07);border-radius:4px;border:1.5px dashed rgba(201,168,76,0.4);flex-direction:column;align-items:center;justify-content:center;gap:.8rem;">
+            <div style="font-size:2.5rem;opacity:.4;">📸</div>
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5);">Upload speaking.jpg to show your stage photo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO STRIP -->
+  <div style="background:var(--dark);padding:1.5rem 2rem;">
+    <div style="max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+      <div style="position:relative;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:rgba(255,255,255,0.05);">
+        <img src="event1.jpg" alt="Speaking event" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:rgba(255,255,255,0.05);">
+        <img src="event2.jpg" alt="Speaking event" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:rgba(255,255,255,0.05);">
+        <img src="event3.jpg" alt="Speaking event" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.display='none'">
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container fade-in">
+      <p class="section-eyebrow">Offerings</p>
+      <h2 class="section-title">What Ashar Delivers</h2>
+
+      <!-- Nonprofit note -->
+      <div class="nonprofit-note">
+        <strong>Nonprofits, hospitals, and community organizations:</strong> Reduced rates are available for registered charities, healthcare institutions, and community service organizations. Mention your organization type when you inquire and Ashar will work with your budget.
+      </div>
+
+      <div class="offering">
+        <div>
+          <span class="tag tag-navy">Keynote</span>
+          <h3>Invisible Ceilings</h3>
+          <p>The signature 30–45 minute talk. Challenges audiences to stop explaining their plateau and start understanding it — using the ARISE framework and the four ceiling archetypes. Attendees leave with their archetype, a first shift, and a practical next move.</p>
+          <p style="font-size:.85rem;color:var(--mid);margin-top:.8rem;"><strong>Best for:</strong> Conferences, leadership summits, ERG events, corporate all-hands, professional associations.</p>
+        </div>
+        <div class="offering-meta">
+          <div class="offering-price">CA$2,000 – $4,000</div>
+          <div class="offering-detail">30–45 min · In-person or virtual</div>
+          <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Book This Talk</a></div>
+        </div>
+      </div>
+
+      <div class="offering">
+        <div>
+          <span class="tag tag-gold">Workshop</span>
+          <h3>Break Your Invisible Ceiling</h3>
+          <p>A half-day or full-day facilitated experience for teams. Participants work through their ceiling archetype, map patterns across the ARISE domains, and build an individual action plan. Includes participant workbooks, facilitated breakouts, and a post-workshop resource kit.</p>
+          <p style="font-size:.85rem;color:var(--mid);margin-top:.8rem;"><strong>Best for:</strong> HR and L&D initiatives, management teams, leadership development programs, ERG cohorts.</p>
+        </div>
+        <div class="offering-meta">
+          <div class="offering-price">CA$3,000 – $8,000</div>
+          <div class="offering-detail">Half-day or full-day</div>
+          <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Inquire</a></div>
+        </div>
+      </div>
+
+      <div class="offering">
+        <div>
+          <span class="tag tag-navy">Senior Leadership</span>
+          <h3>Leadership Blindspots</h3>
+          <p>A targeted 45–60 minute session for senior leaders and C-suite teams. Explores the patterns that quietly undermine leadership effectiveness — around diversity of perspective, psychological safety, and the organizational ceilings leaders unknowingly reinforce.</p>
+          <p style="font-size:.85rem;color:var(--mid);margin-top:.8rem;"><strong>Best for:</strong> SLT off-sites, board development sessions, executive retreats.</p>
+        </div>
+        <div class="offering-meta">
+          <div class="offering-price">CA$3,500 – $6,000</div>
+          <div class="offering-detail">45–60 min + Q&A</div>
+          <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Inquire</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container fade-in">
+      <p class="section-eyebrow">Every Talk Includes</p>
+      <h2 class="section-title">What's Always Included</h2>
+      <div class="cards">
+        <div class="card"><h3>Pre-Event Prep</h3><p>A 30-minute audience prep call to tailor the talk to your group's context, industry, and specific challenge.</p></div>
+        <div class="card"><h3>Print Materials</h3><p>ARISE one-pager, reflection cards, and question cards. Print-ready files delivered ahead of your event.</p></div>
+        <div class="card"><h3>Post-Event Support</h3><p>A LinkedIn post recapping the event and tagging your organization. Permission to share a short event recap video.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Ready to Book?</h2>
+      <p>Tell Ashar about your event — date, audience size, and what you're trying to shift. He reads and responds to every inquiry personally.</p>
+      <a href="#" class="btn-gold" onclick="return showPage('contact')">Send a Speaking Inquiry</a>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: PROGRAMS (Coaching + Corporate merged)
+══════════════════════════════════════════════ -->
+<div class="page" id="page-programs">
+  <section style="background:var(--navy);padding:5rem 2rem 3rem;">
+    <div class="container">
+      <p class="hero-eyebrow" style="color:var(--gold);">Programs</p>
+      <h1 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);color:var(--white);font-weight:normal;max-width:700px;line-height:1.2;">Whether You're an Individual or a Team — There's a Path Here.</h1>
+      <p style="color:rgba(255,255,255,0.75);margin-top:1rem;max-width:620px;">From one-on-one coaching to full corporate engagements, every BIC program is built around the same core idea: you have to see the ceiling before you can break through it.</p>
+    </div>
+  </section>
+
+  <!-- COACHING -->
+  <section class="section">
+    <div class="container fade-in">
+      <p class="section-eyebrow">Individual Coaching</p>
+      <h2 class="section-title">You Don't Need More Motivation. You Need to See the Ceiling.</h2>
+      <p style="font-size:1.05rem;color:var(--mid);max-width:680px;line-height:1.8;margin-bottom:3rem;">Coaching with Ashar is built around one question: what is the invisible ceiling that keeps showing up in your career, your relationships, or your sense of what's possible? Once you can see it clearly — and understand where it came from — you can break through it. That's the work.</p>
+
+      <div class="cards" style="margin-top:2rem;">
+        <div class="card">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Single Session</span>
+          <h3>Ceiling Audit Session</h3>
+          <p>A focused 90-minute 1:1 to map your current invisible ceiling across the five ARISE domains. You leave with a clear picture of where the ceiling shows up, your dominant archetype, and three priority shifts.</p>
+          <div class="price">CA$350</div>
+          <div class="price-sub">90 min · Virtual · Includes worksheet + session notes</div>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Book a Session</a>
+        </div>
+
+        <div class="card card-featured">
+          <div class="card-badge">Most Popular</div>
+          <span class="tag tag-gold" style="margin-bottom:.8rem;">90-Day Program</span>
+          <h3>Invisible Ceiling Transformation</h3>
+          <p>The flagship engagement. Over 90 days, you and Ashar work through the full ARISE framework — moving from ceiling awareness to deliberate shift to a new level of operation.</p>
+          <p style="font-size:.85rem;color:var(--mid);margin-top:.6rem;margin-bottom:1rem;">6 bi-weekly sessions · Full ARISE workbook · Archetype deep-dive · Between-session accountability · Email access throughout</p>
+          <div class="price">CA$2,400</div>
+          <div class="price-sub">6 sessions over 90 days · Payment plans available</div>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Start the Journey</a>
+        </div>
+
+        <div class="card">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Ongoing</span>
+          <h3>Advisory Partnership</h3>
+          <p>For professionals who've completed the 90-Day program and want continued accountability and strategic thinking partnership. Monthly sessions focused on the next ceiling.</p>
+          <div class="price">CA$600 / month</div>
+          <div class="price-sub">2 sessions/month · Rolling monthly commitment</div>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Inquire</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container fade-in" style="text-align:center;max-width:640px;margin:0 auto;">
+      <p class="section-eyebrow">Not Ready Yet?</p>
+      <h2 class="section-title">Start for Free</h2>
+      <p style="color:var(--mid);line-height:1.8;margin-bottom:1.5rem;">Join the free Invisible Ceilings community on Skool. Get access to the ARISE workbook, community discussions, and Ashar's regular posts and live sessions.</p>
+      <a href="https://skool.com/invisible-ceilings-2286" target="_blank" class="btn-gold">Join the Free Community</a>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div style="background:var(--navy);padding:2rem;text-align:center;">
+    <p style="color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:3px;text-transform:uppercase;">Corporate &amp; Team Programs</p>
+  </div>
+
+  <!-- CORPORATE -->
+  <section class="section">
+    <div class="container fade-in">
+      <p class="section-eyebrow">For Organizations</p>
+      <h2 class="section-title">Your People Aren't the Problem. Their Ceiling Is.</h2>
+      <p style="font-size:1rem;color:var(--mid);max-width:680px;line-height:1.8;margin-bottom:2rem;">Organizations invest millions in talent acquisition and almost nothing in helping that talent break through the invisible patterns that cap their performance. BIC programs change that.</p>
+
+      <div class="nonprofit-note">
+        <strong>Nonprofits, hospitals, and community organizations:</strong> Reduced rates are available for registered charities, healthcare institutions, and community service organizations. Mention your organization type when you inquire and Ashar will work with your budget.
+      </div>
+
+      <div class="corp-grid" style="margin-top:2rem;">
+        <div class="corp-card">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Keynote</span>
+          <h3>Invisible Ceilings Keynote</h3>
+          <p>A 30–45 minute talk that sets the frame for the Invisible Ceilings concept, introduces the four archetypes, and delivers the ARISE framework to your entire team or conference audience.</p>
+          <div class="price" style="margin-top:1rem;">CA$2,000 – $4,000</div>
+          <div class="price-sub">Kick-offs · All-hands · Conferences · ERG panels</div>
+        </div>
+        <div class="corp-card">
+          <span class="tag tag-gold" style="margin-bottom:.8rem;">Workshop</span>
+          <h3>Break Your Invisible Ceiling</h3>
+          <p>A half-day or full-day facilitated workshop. Teams identify their ceiling archetype, map their patterns, and leave with individual action plans and workbooks.</p>
+          <div class="price" style="margin-top:1rem;">CA$3,000 – $8,000</div>
+          <div class="price-sub">Management cohorts · Team off-sites · L&D programs</div>
+        </div>
+        <div class="corp-card">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Senior Leadership</span>
+          <h3>Leadership Blindspots Session</h3>
+          <p>A senior-level facilitated session for SLT and executive teams. Explores leadership patterns that suppress team performance and create organizational ceilings leaders don't see.</p>
+          <div class="price" style="margin-top:1rem;">CA$3,500 – $6,000</div>
+          <div class="price-sub">Executive retreats · SLT off-sites · Board development</div>
+        </div>
+        <div class="corp-card" style="border-top-color:var(--navy);">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Full Series</span>
+          <h3>6-Module BIC Program</h3>
+          <p>The complete corporate experience. Six facilitated modules over 6–12 weeks covering all four ceiling domains. Includes pre-work, participant materials, accountability, and a final cohort presentation.</p>
+          <div class="price" style="margin-top:1rem;">Custom Pricing</div>
+          <div class="price-sub">High-potential programs · ERG leadership development · Enterprise L&D</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container fade-in">
+      <p class="section-eyebrow">Why BIC</p>
+      <h2 class="section-title">Why Organizations Choose This Work</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-num">15+</div>
+          <h4>Years Enterprise Experience</h4>
+          <p>The ARISE framework was built from observing capable professionals in real enterprise environments — not from a research paper.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-num">48h</div>
+          <h4>First Moves in 48 Hours</h4>
+          <p>Every session ends with specific, actionable shifts participants can make in their current roles. No waiting for transformation.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-num">∞</div>
+          <h4>Built for Diverse Teams</h4>
+          <p>Ashar's own journey gives him a distinct lens on barriers that intersect with culture, identity, and systemic environment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Let's Build Something Together</h2>
+      <p>Every engagement starts with a conversation about your goals and what success looks like. Ashar responds within one business day.</p>
+      <a href="#" class="btn-gold" onclick="return showPage('contact')">Inquire About Programs</a>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: BOOK
+══════════════════════════════════════════════ -->
+<div class="page" id="page-book">
+  <section class="section">
+    <div class="container">
+      <div class="book-grid fade-in">
+        <div>
+          <div class="book-cover" style="padding:0;overflow:hidden;position:relative;">
+            <img src="book-cover.jpg" alt="Invisible Ceilings by Ashar Saleem"
+              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;"
+              onerror="this.style.display='none';document.getElementById('book-cover-mock').style.display='flex';">
+            <div id="book-cover-mock"
+              style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;height:100%;background:var(--navy);border-radius:4px;">
+              <div class="book-cover-badge">#1 Amazon Canada</div>
+              <div class="book-cover-title">Invisible Ceilings</div>
+              <div class="book-cover-sub">Stop Being Reliable.<br>Start Being Influential.</div>
+              <div class="book-cover-author">Ashar Saleem</div>
+              <div style="margin-top:1.5rem;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,168,76,0.4);">Upload book-cover.jpg to replace this</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;text-align:center;">
+            <a href="https://www.amazon.ca" target="_blank" class="btn-gold" style="width:100%;display:block;text-align:center;">Get the Book on Amazon</a>
+          </div>
+        </div>
+        <div>
+          <p class="section-eyebrow">The Book</p>
+          <h2 class="section-title">Invisible Ceilings</h2>
+          <p style="font-size:1.1rem;font-style:italic;color:var(--navy);margin-bottom:1.5rem;font-family:var(--serif);">Stop Being Reliable. Start Being Influential.</p>
+          <div class="gold-bar-section" style="margin-bottom:2rem;">
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;margin-bottom:1rem;">You work hard. You deliver. You're the person people count on.</p>
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;margin-bottom:1rem;">So why does it feel like everyone around you keeps moving forward while you're stuck holding the ceiling up?</p>
+            <p style="font-size:1.05rem;color:var(--mid);line-height:1.85;">Invisible Ceilings names what's happening — and gives you a clear, practical framework to stop being the person who's indispensable at your current level and start becoming the person who leads at the next one.</p>
+          </div>
+
+          <p class="section-eyebrow">What's Inside</p>
+          <div class="inside-items">
+            <div class="inside-item"><h4>The Four Archetypes</h4><p>The Silent Expert, Approval Seeker, Comfortable Overcapper, Almost-There. Which one is you?</p></div>
+            <div class="inside-item"><h4>The Workhorse Trap</h4><p>Why being reliable can become the very thing that keeps you invisible — and how to escape it.</p></div>
+            <div class="inside-item"><h4>The ARISE Framework</h4><p>Five stages from awareness to elevation, built for the real challenges professionals face.</p></div>
+            <div class="inside-item"><h4>Your First Move</h4><p>Specific, practical actions you can take in your current role — starting this week.</p></div>
+          </div>
+
+          <div style="margin-top:2rem;padding:1.5rem;background:var(--cream);border-radius:4px;border-left:4px solid var(--gold);">
+            <p style="font-size:.9rem;color:var(--mid);">Bulk orders available for corporate events, team reads, and conference giveaways.</p>
+            <a href="#" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:.5rem;display:inline-block;" onclick="return showPage('contact')">Inquire about bulk orders →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: CONTACT
+══════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <section style="background:var(--navy);padding:5rem 2rem 3rem;">
+    <div class="container">
+      <p class="hero-eyebrow" style="color:var(--gold);">Get in Touch</p>
+      <h1 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);color:var(--white);font-weight:normal;line-height:1.2;">Let's Talk</h1>
+      <p style="color:rgba(255,255,255,0.75);margin-top:1rem;max-width:520px;">Ashar reads and responds to every message personally. Response time: within 48 hours on business days.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid fade-in">
+        <div>
+          <form id="contact-form" action="https://formspree.io/f/xjgzloll" method="POST">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input class="form-input" type="text" name="name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input class="form-input" type="email" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organization (optional)</label>
+              <input class="form-input" type="text" name="organization" placeholder="Company or organization">
+            </div>
+            <div class="form-group">
+              <label class="form-label">What are you reaching out about? *</label>
+              <select class="form-select" name="inquiry_type" required>
+                <option value="">Select an inquiry type</option>
+                <option>Speaking Inquiry</option>
+                <option>Coaching</option>
+                <option>Corporate Programs</option>
+                <option>Book Order</option>
+                <option>General</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell me about your event, team, or what you're working through *</label>
+              <textarea class="form-textarea" name="message" required placeholder="The more detail you share, the better Ashar can respond…"></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Send Message</button>
+          </form>
+        </div>
+
+        <div class="contact-info">
+          <h3>Other Ways to Connect</h3>
+          <p>Whether you're looking to book a speaker, start coaching, explore a program, or ask a question — this is the right place to start.</p>
+          <p style="font-size:.9rem;color:var(--mid);">Based in Ajax, Ontario. Serving the Greater Toronto Area and clients nationwide.</p>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/asharbsaleem/" target="_blank" class="social-link">
+              <div class="social-icon">in</div>LinkedIn
+            </a>
+            <a href="https://www.instagram.com/breakinginvisibleceilings" target="_blank" class="social-link">
+              <div class="social-icon">📸</div>Instagram
+            </a>
+            <a href="https://www.youtube.com/@breakinginvisibleceilings" target="_blank" class="social-link">
+              <div class="social-icon">▶</div>YouTube
+            </a>
+            <a href="https://www.tiktok.com/@breakinginvisibleceilings" target="_blank" class="social-link">
+              <div class="social-icon">♪</div>TikTok
+            </a>
+          </div>
+          <div style="margin-top:2rem;padding:1.5rem;background:var(--cream);border-radius:4px;border-top:3px solid var(--gold);">
+            <p style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;">Free Ceiling Audit</p>
+            <p style="font-size:.85rem;color:var(--mid);">Not sure where to start? Download the free 9-page Invisible Ceiling Audit PDF to map where your ceiling shows up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-brand">Breaking Invisible Ceilings</div>
+    <div class="footer-tagline">"You Were Built for More. Act Like It."</div>
+    <div class="footer-copy">© 2026 Ashar Saleem · BreakingInvisibleCeilings.com</div>
+  </footer>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('[data-page]').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    const link = document.querySelector('[data-page="' + id + '"]');
+    if (link) link.classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('nav-links').classList.remove('open');
+    setTimeout(initFades, 50);
+    return false;
+  }
+
+  function toggleNav() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  function initFades() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+    }, { threshold: 0.1 });
+    const activePage = document.querySelector('.page.active');
+    if (activePage) {
+      activePage.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+    }
+  }
+
+  window.addEventListener('load', () => { setTimeout(initFades, 100); });
+</script>
+</body>
+</html>
