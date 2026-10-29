@@ -185,13 +185,13 @@
       <img src="logo-light.png" alt="Breaking Invisible Ceilings" style="height: 52px; width: auto; display: block;">
     </a>
   </div>
-  </div>
   <div class="nav-links" id="nav-links">
     <a href="#" onclick="return showPage('home')" class="active" data-page="home">Home</a>
     <a href="#" onclick="return showPage('about')" data-page="about">About</a>
     <a href="#" onclick="return showPage('speaking')" data-page="speaking">Speaking</a>
     <a href="#" onclick="return showPage('programs')" data-page="programs">Programs</a>
     <a href="#" onclick="return showPage('book')" data-page="book">Book</a>
+    <a href="arise.html">Free Workbook</a>
     <a href="#" onclick="return showPage('contact')" class="nav-cta">Get in Touch</a>
   </div>
   <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">
@@ -247,11 +247,11 @@
       <h2 class="section-title">The ARISE Framework</h2>
       <p class="section-lead">A structured path from awareness to elevation used in keynotes, coaching, and corporate programs.</p>
       <div class="arise-grid">
-        <div class="arise-card"><div class="arise-letter">A</div><div class="arise-word">Acknowledge</div><p class="arise-desc">Name the ceiling. Most people live under it without ever calling it what it is.</p></div>
-        <div class="arise-card"><div class="arise-letter">R</div><div class="arise-word">Reflect</div><p class="arise-desc">Understand where the ceiling came from.</p></div>
-        <div class="arise-card"><div class="arise-letter">I</div><div class="arise-word">Identify</div><p class="arise-desc">Spot the patterns. The ceiling shows up in how you speak, what you avoid, who you defer to.</p></div>
+        <div class="arise-card"><div class="arise-letter">A</div><div class="arise-word">Acknowledge</div><p class="arise-desc">Admit that something is holding you back. No blame and no excuses, just honest recognition.</p></div>
+        <div class="arise-card"><div class="arise-letter">R</div><div class="arise-word">Reflect</div><p class="arise-desc">Be brutally honest about where the ceiling came from and when you first believed it.</p></div>
+        <div class="arise-card"><div class="arise-letter">I</div><div class="arise-word">Identify</div><p class="arise-desc">Name the ceiling in one complete sentence. A ceiling with an address is one you can break.</p></div>
         <div class="arise-card"><div class="arise-letter">S</div><div class="arise-word">Shift</div><p class="arise-desc">Take the smallest possible action to break the pattern.</p></div>
-        <div class="arise-card"><div class="arise-letter">E</div><div class="arise-word">Elevate</div><p class="arise-desc">Build the life that makes the ceiling impossible to return to.</p></div>
+        <div class="arise-card"><div class="arise-letter">E</div><div class="arise-word">Elevate</div><p class="arise-desc">Set the habits and standards that stop the ceiling from sneaking back in.</p></div>
       </div>
     </div>
   </section>
@@ -263,7 +263,7 @@
         <div class="card">
           <div class="card-icon">🎤</div>
           <h3>Speaking</h3>
-          <p>Keynotes and workshops that shift how your team thinks about performance, visibility, and leadership. For conferences, retreats, and corporate events.</p>
+          <p>Keynotes and team workshops that shift how people think about performance, visibility, and leadership. For conferences, L&amp;D programs, ERGs, and corporate events.</p>
           <a href="#" class="card-link" onclick="return showPage('speaking')">View Speaking Options →</a>
         </div>
         <div class="card">
@@ -273,10 +273,10 @@
           <a href="#" class="card-link" onclick="return showPage('programs')">Explore Coaching →</a>
         </div>
         <div class="card">
-          <div class="card-icon">🏢</div>
-          <h3>Corporate Programs</h3>
-          <p>Multi-session workshop series and leadership development programs for teams, ERG groups, and L&amp;D initiatives that want real change.</p>
-          <a href="#" class="card-link" onclick="return showPage('programs')">View Corporate Programs →</a>
+          <div class="card-icon">📘</div>
+          <h3>Free ARISE Workbook</h3>
+          <p>Not ready to work together yet? Start here. Ten pages that walk you through ARISE, so you can name your ceiling and take your first step this week.</p>
+          <a href="arise.html" class="card-link">Get the Free Workbook →</a>
         </div>
       </div>
     </div>
@@ -321,7 +321,7 @@
             <div class="cred-item"><div class="cred-label">Author</div><div class="cred-value">#1 Amazon Canada · Business Writing<br>Invisible Ceilings</div></div>
             <div class="cred-item"><div class="cred-label">Certifications</div><div class="cred-value">PMP · CSM<br>Toastmasters Member</div></div>
             <div class="cred-item"><div class="cred-label">Speaker</div><div class="cred-value">Keynote & Workshop<br>Toronto but available WorldWide</div></div>
-            <div class="cred-item"><div class="cred-label">Experience</div><div class="cred-value">15+ Years Enterprise<br>Project Leadership</div></div>
+            <div class="cred-item"><div class="cred-label">Experience</div><div class="cred-value">20+ Years Enterprise<br>Project Leadership</div></div>
           </div>
           <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
             <a href="#" class="btn-gold" onclick="return showPage('speaking')">View Speaking</a>
@@ -378,7 +378,7 @@
         <div class="offering-meta">
           <div class="offering-price">CA$500 – $1,500</div>
           <div class="offering-detail">60 min · In-person or virtual</div>
-          <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Book This Talk</a></div>
+          <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showContact('Speaking Inquiry')">Book This Talk</a></div>
         </div>
       </div>
       <div class="offering">
@@ -394,12 +394,13 @@
           <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Inquire</a></div>
         </div>
       </div>
+      <!-- PARKED: Leadership Blindspots (restore later)
       <div class="offering">
         <div>
           <span class="tag tag-navy">Senior Leadership</span>
           <h3>Leadership Blindspots</h3>
           <p>A targeted one-on-one 90-120 minute session for senior leaders and C-suite teams. Explores the patterns that quietly undermine leadership effectiveness around diversity of perspective, psychological safety, and the organizational ceilings leaders unknowingly reinforce.</p>
-          <p style="font-size:.85rem;color:var(--mid);margin-top:.8rem;"><strong>Best for:</strong> SLT off-sites, board development sessions, executive retreats.</p>
+          <p style="font-size:.85rem;color:var(&#8211;mid);margin-top:.8rem;"><strong>Best for:</strong> SLT off-sites, board development sessions, executive retreats.</p>
         </div>
         <div class="offering-meta">
           <div class="offering-price">CA$2,500 – $5,000</div>
@@ -407,6 +408,7 @@
           <div style="margin-top:1rem;"><a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;" onclick="return showPage('contact')">Inquire</a></div>
         </div>
       </div>
+      -->
     </div>
   </section>
   <section class="section section-cream">
@@ -455,17 +457,17 @@
           <p>A focused 90-minute 1:1 to map your current invisible ceiling across the five ARISE domains. You leave with a clear picture of where the ceiling shows up, your dominant archetype, and three priority shifts.</p>
           <div class="price">CA$250</div>
           <div class="price-sub">90 min · Virtual · Includes worksheet + session notes</div>
-          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Book a Session</a>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showContact('Coaching')">Book a Session</a>
         </div>
         <div class="card card-featured">
-          <div class="card-badge">Most Popular</div>
+          <div class="card-badge">Flagship</div>
           <span class="tag tag-gold" style="margin-bottom:.8rem;">60-Day Program</span>
           <h3>Invisible Ceiling Transformation</h3>
           <p>The flagship engagement. Over 60 days, you and Ashar work through the full ARISE framework moving from ceiling awareness to deliberate shift to a new level of operation.</p>
           <p style="font-size:.85rem;color:var(--mid);margin-top:.6rem;margin-bottom:1rem;">10 sessions · Full ARISE workbook · Archetype deep-dive · Between-session accountability · Email access throughout</p>
           <div class="price">CA$2,000</div>
           <div class="price-sub">10 x 45-60 min sessions over 60 days</div>
-          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Start the Journey</a>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showContact('Coaching')">Start the Journey</a>
         </div>
         <div class="card">
           <span class="tag tag-navy" style="margin-bottom:.8rem;">Ongoing</span>
@@ -473,7 +475,7 @@
           <p>For professionals who've completed the 60-Day program and want continued accountability and strategic thinking partnership. Monthly sessions focused on the next ceiling.</p>
           <div class="price">CA$500 / month</div>
           <div class="price-sub">2 sessions/month · Rolling monthly commitment</div>
-          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showPage('contact')">Inquire</a>
+          <a href="#" class="btn-gold" style="font-size:12px;padding:10px 18px;display:inline-block;" onclick="return showContact('Coaching')">Inquire</a>
         </div>
       </div>
     </div>
@@ -482,8 +484,8 @@
     <div class="container fade-in" style="text-align:center;max-width:640px;margin:0 auto;">
       <p class="section-eyebrow">Not Ready Yet?</p>
       <h2 class="section-title">Start for Free</h2>
-      <p style="color:var(--mid);line-height:1.8;margin-bottom:1.5rem;">Join the free Invisible Ceilings community on Skool. Get access to the ARISE workbook, community discussions, and Ashar's regular posts and live sessions.</p>
-      <a href="https://skool.com/invisible-ceilings-2286" target="_blank" class="btn-gold">Join the Free Community</a>
+      <p style="color:var(--mid);line-height:1.8;margin-bottom:1.5rem;">Download the free ARISE Workbook. Ten pages that walk you through all five steps, so you can name your ceiling, trace where it came from, and take your first small step this week.</p>
+      <a href="arise.html" class="btn-gold">Get the Free Workbook</a>
     </div>
   </section>
   <div style="background:var(--navy);padding:2rem;text-align:center;">
@@ -497,6 +499,21 @@
       <div class="nonprofit-note">
         <strong>Nonprofits, hospitals, and community organizations:</strong> Reduced rates are available for registered charities, healthcare institutions, and community service organizations. Mention your organization type when you inquire and Ashar will work with your budget.
       </div>
+      <div class="corp-grid" style="margin-top:2rem;">
+        <div class="corp-card">
+          <span class="tag tag-navy" style="margin-bottom:.8rem;">Keynote</span>
+          <h3>Invisible Ceilings Keynote</h3>
+          <p>The signature talk. Introduces the Invisible Ceilings concept, the four archetypes, and the ARISE framework to your whole team or conference audience. Every attendee leaves with a first shift they can make this week.</p>
+          <a href="#" class="card-link" onclick="return showPage('speaking')">Details &amp; pricing →</a>
+        </div>
+        <div class="corp-card">
+          <span class="tag tag-gold" style="margin-bottom:.8rem;">Workshop</span>
+          <h3>Break Your Invisible Ceiling</h3>
+          <p>A half-day or full-day facilitated workshop. Teams identify their ceiling archetype, map their patterns, and leave with individual action plans and the ARISE Workbook.</p>
+          <a href="#" class="card-link" onclick="return showPage('speaking')">Details &amp; pricing →</a>
+        </div>
+      </div>
+      <!-- PARKED (restore later): original corporate grid incl. Leadership Blindspots Session and 6-Module BIC Program
       <div class="corp-grid" style="margin-top:2rem;">
         <div class="corp-card">
           <span class="tag tag-navy" style="margin-bottom:.8rem;">Keynote</span>
@@ -519,7 +536,7 @@
           <div class="price" style="margin-top:1rem;">CA$3,500 – $5,000</div>
           <div class="price-sub">Executive retreats · SLT off-sites · Board development</div>
         </div>
-        <div class="corp-card" style="border-top-color:var(--navy);">
+        <div class="corp-card" style="border-top-color:var(&#8211;navy);">
           <span class="tag tag-navy" style="margin-bottom:.8rem;">Full Series</span>
           <h3>6-Module BIC Program</h3>
           <p>The complete corporate experience. Six facilitated modules over 6-12 weeks covering all four ceiling domains. Includes pre-work, participant materials, accountability, and a final cohort presentation.</p>
@@ -527,6 +544,7 @@
           <div class="price-sub">High-potential programs · ERG leadership development · Enterprise L&D</div>
         </div>
       </div>
+      -->
     </div>
   </section>
   <section class="section section-cream">
@@ -535,7 +553,7 @@
       <h2 class="section-title">Why Organizations Choose This Work</h2>
       <div class="why-grid">
         <div class="why-item">
-          <div class="why-num">15+</div>
+          <div class="why-num">20+</div>
           <h4>Years Enterprise Experience</h4>
           <p>The ARISE framework was built from observing capable professionals in real enterprise environments - not from a research paper.</p>
         </div>
@@ -582,7 +600,7 @@
             </div>
           </div>
           <div style="margin-top:1rem;text-align:center;">
-            <a href="https://www.amazon.ca" target="_blank" class="btn-gold" style="width:100%;display:block;text-align:center;">Get the Book on Amazon</a>
+            <a href="https://www.amazon.ca/s?k=Invisible+Ceilings+Ashar+Saleem" target="_blank" class="btn-gold" style="width:100%;display:block;text-align:center;">Get the Book on Amazon</a>
           </div>
         </div>
         <div>
@@ -622,7 +640,7 @@
     <div class="container">
       <p class="hero-eyebrow" style="color:var(--gold);">Get in Touch</p>
       <h1 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);color:var(--white);font-weight:normal;line-height:1.2;">Let's Talk</h1>
-      <p style="color:rgba(255,255,255,0.75);margin-top:1rem;max-width:520px;">Ashar & team reads and responds to every message personally. Response time: within 48 hours on business days.</p>
+      <p style="color:rgba(255,255,255,0.75);margin-top:1rem;max-width:520px;">Ashar & team reads and responds to every message personally. Response time: within one business day.</p>
     </div>
   </section>
   <section class="section">
@@ -673,7 +691,7 @@
           </div>
           <div style="margin-top:2rem;padding:1.5rem;background:var(--cream);border-radius:4px;border-top:3px solid var(--gold);">
             <p style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;">FREE Ceiling Audit</p>
-            <p style="font-size:.85rem;color:var(--mid);">Not sure where to start?  Take the FREE Invisible Ceilings Audit to map where your ceiling shows up.</p>
+            <p style="font-size:.85rem;color:var(--mid);">Not sure where to start? <a href="https://asharbsaleem-design.github.io/BIC-Audit/" target="_blank" style="color:var(--navy);font-weight:700;text-decoration:underline;">Take the free Invisible Ceiling Audit</a> to map where your ceiling shows up, then work through it with the <a href="arise.html" style="color:var(--navy);font-weight:700;text-decoration:underline;">free ARISE Workbook</a>.</p>
           </div>
         </div>
       </div>
@@ -696,6 +714,12 @@
     window.scrollTo(0, 0);
     document.getElementById('nav-links').classList.remove('open');
     setTimeout(initFades, 50);
+    return false;
+  }
+  function showContact(type) {
+    showPage('contact');
+    const sel = document.querySelector('#contact-form select[name="inquiry_type"]');
+    if (sel && type) sel.value = type;
     return false;
   }
   function toggleNav() {
